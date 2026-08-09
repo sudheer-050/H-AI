@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+users/
+test_user_summaries/
