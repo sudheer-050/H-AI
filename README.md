@@ -1,5 +1,7 @@
 # H-AI
 
+![H-AI personal assistant conversation](docs/images/h-ai.png)
+
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Python](https://img.shields.io/badge/python-3.10-3776AB?logo=python&logoColor=white)
 
