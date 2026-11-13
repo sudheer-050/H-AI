@@ -7,6 +7,9 @@
 
 A local, memory-aware AI assistant ("H") built in Python on top of [Ollama](https://ollama.com) and Llama 3. Runs entirely in your terminal, on your own machine — no data leaves your computer.
 
+## Windows installer
+Download **H-AI-Setup-1.0.0.exe** from the [latest release](https://github.com/sudheer-050/H-AI/releases/latest). Python is not needed. You still need [Ollama](https://ollama.com) with the model pulled (`ollama pull llama3`). Conversations are saved in `%LOCALAPPDATA%\H-AI`.
+
 ## Features
 
 - **Multi-user** — each person gets a unique 5-digit ID and their own profile, so the same assistant can talk to different people (family, friends) while keeping their context separate.

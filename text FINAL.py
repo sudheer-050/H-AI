@@ -27,7 +27,12 @@ SYSTEM_PROMPT = (
     "Only mention that you are an AI if the user directly asks what you are."
 )
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+if getattr(sys, "frozen", False):
+    # Packaged Windows build: keep conversations in the user's profile, not the install folder.
+    BASE_DIR = os.path.join(os.environ.get("LOCALAPPDATA", os.path.expanduser("~")), "H-AI")
+    os.makedirs(BASE_DIR, exist_ok=True)
+else:
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 USERS_DIR = os.path.join(BASE_DIR, "users")
 
 # ----------------------------
@@ -464,5 +469,23 @@ def main() -> None:
         except Exception as e:
             print(f"[Error] {e}\n")
 
+def preflight() -> bool:
+    """Check that Ollama is running and the model is available; explain how to fix it if not."""
+    try:
+        names = [m.get("model") or m.get("name") or "" for m in ollama.list().get("models", [])]
+    except Exception:
+        print("H-AI needs Ollama, and it doesn't seem to be running.")
+        print("Install it from https://ollama.com/download, start it, then open H-AI again.")
+        return False
+    if not any(n.split(":")[0] == MODEL for n in names):
+        print(f"Ollama is running, but the '{MODEL}' model isn't downloaded yet.")
+        print(f"Open a terminal and run:  ollama pull {MODEL}")
+        return False
+    return True
+
+
 if __name__ == "__main__":
+    if getattr(sys, "frozen", False) and not preflight():
+        input("\nPress Enter to close...")
+        sys.exit(1)
     main()
